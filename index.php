@@ -1,32 +1,8 @@
-import imaplib, email, sys, requests, json, urllib.parse
-from time import sleep
-M = imaplib.IMAP4_SSL("imap.gmail.com", 993)
-M.login("@gmail.com", "Password")
-LINE_ACCESS_TOKEN="e1RlmRJesmOfO3yJP2cjtrivxgk5qvFSE1Pukx00Aw2"
-url = "https://notify-api.line.me/api/notify" 
-old = ""
-
-def line_text(message):	
-	msg = urllib.parse.urlencode({"message":message})
-	LINE_HEADERS = {'Content-Type':'application/x-www-form-urlencoded',"Authorization":"Bearer "+LINE_ACCESS_TOKEN}
-	session = requests.Session()
-	a=session.post(url, headers=LINE_HEADERS, data=msg)
-	print(a.text)
-	
-try:
-	while 1:
-		M.select()
-		typ, data = M.search(None, 'ALL')
-		typ, data = M.fetch(data[0].split()[len(data[0].split())-1], '(RFC822)')
-		raw = data[0][1].decode('utf-8')
-		b = email.message_from_string(raw)
-		if(old != b['Date']):
-			print("Subject: "+b['subject'])
-			print("Date: "+b['Date'])
-			old = b['Date']
-			line_text("Subject: "+b['subject']+"\nDate: "+b['Date'])
-		sleep(10)
-except KeyboardInterrupt:
-	M.close()
-	M.logout()
-	raise SystemExit
+<?php
+function send_line_notify($message, $token)
+{ $ch = curl_init(); curl_setopt( $ch, CURLOPT_URL, "https://notify-api.line.me/api/notify"); curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0); curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0); curl_setopt( $ch, CURLOPT_POST, 1); curl_setopt( $ch, CURLOPT_POSTFIELDS, "message=$message"); curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1); $headers = array( "Content-type: application/x-www-form-urlencoded", "Authorization: Bearer $token", ); curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1); $result = curl_exec( $ch ); curl_close( $ch ); return $result;
+}
+$message = 'ข้อความ';
+$token = 'e1RlmRJesmOfO3yJP2cjtrivxgk5qvFSE1Pukx00Aw2';
+echo send_line_notify($message, $token);
+?>
