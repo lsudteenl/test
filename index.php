@@ -1,8 +1,28 @@
 <?php
-function send_line_notify($message, $token)
-{ $ch = curl_init(); curl_setopt( $ch, CURLOPT_URL, "https://notify-api.line.me/api/notify"); curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0); curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0); curl_setopt( $ch, CURLOPT_POST, 1); curl_setopt( $ch, CURLOPT_POSTFIELDS, "message=$message"); curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1); $headers = array( "Content-type: application/x-www-form-urlencoded", "Authorization: Bearer $token", ); curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1); $result = curl_exec( $ch ); curl_close( $ch ); return $result;
-}
-$message = ' มีการเปิด Ticket นะครับ';
-$token = 'e1RlmRJesmOfO3yJP2cjtrivxgk5qvFSE1Pukx00Aw2';
-echo send_line_notify($message, $token);
+ 
+$strAccessToken = "ACCESS_TOKEN";
+ 
+$strUrl = "https://api.line.me/v2/bot/message/push";
+ 
+$arrHeader = array();
+$arrHeader[] = "Content-Type: application/json";
+$arrHeader[] = "Authorization: Bearer Z5V96HAgqYHHzj6m2k5q3CoMIt6EsqyD6wxkQVwqvgRRRIE1aqBZvIt7jT/CgOLkmn/fXYXqFC+HruiO+4hGWdaza7MtjIzU7ddRDlE6SPUUitX/Vb5Qgr8CDZL5/iXU0UqZJEKbKP+/9beWQMsV3AdB04t89/1O/w1cDnyilFU=";
+ 
+$arrPostData = array();
+$arrPostData['to'] = "USER_ID";
+$arrPostData['messages'][0]['type'] = "text";
+$arrPostData['messages'][0]['text'] = "นี้คือการทดสอบ Push Message";
+ 
+ 
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL,$strUrl);
+curl_setopt($ch, CURLOPT_HEADER, false);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $arrHeader);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arrPostData));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+$result = curl_exec($ch);
+curl_close ($ch);
+ 
 ?>
