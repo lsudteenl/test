@@ -6,7 +6,7 @@ $strUrl = "https://api.line.me/v2/bot/message/push";
  
 $arrHeader = array();
 $arrHeader[] = "Content-Type: application/json";
-$arrHeader[] = "Authorization: Bearer 9jaRJoRdl6EM871efmyRS8sp2lKzgGoNcc7DWzQ6bcl";
+$arrHeader[] = "Authorization: Bearer cVEzC6zHrhzVc5gHgNwQ4LhEi/4w+uGMqTaJEtYFWNmtiobUlcMOkab5Ay2sHA7OXxxozIhjQ1h5ikQkVUQHZv4eld7MGeUR7Vu++UvHRZB7s0ykSwwLjf5ilqwyLPej9SPZk3s3bfyQzHEqmwlcSAdB04t89/1O/w1cDnyilFU=";
  
 $arrPostData = array();
 $arrPostData['to'] = "USER_ID";
